@@ -21,7 +21,30 @@ class _PlayState extends State<Play> {
   var isStart = false;   // スタートしているか判断
   var canTap = true;     // タップを許可するか判断
 
+  List contentList = [];  // タップする中身を代入する用
+  List shuffled = [];     // タップする中身をシャッフルしたものを代入する用
+
   @override
+
+  initState() {
+    super.initState();
+
+    if (widget.menu == "number") {
+      // 1-30の配列
+      contentList = new List.generate(30, (i)=> (i+1));
+    } else if (widget.menu == "large") {
+      // A-Zの配列
+      contentList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", ""];
+    } else if (widget.menu == "small") {
+      // a-zの配列
+      contentList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "", "", "", ""];
+    }
+
+    // 配列をシャッフル
+    shuffled = shuffle(contentList);
+
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
@@ -158,28 +181,6 @@ class _PlayState extends State<Play> {
 
   // タップエリア
   Widget tapArea() {
-    print(widget.menu);
-
-    List contentList = [];
-
-    if (widget.menu == "number") {
-      contentList = new List.generate(30, (i)=> (i+1));
-    } else if (widget.menu == "large") {
-      contentList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", ""];
-    } else if (widget.menu == "small") {
-      contentList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "", "", "", ""];
-    }
-
-    // 1-30の配列
-//    List contentList = new List.generate(30, (i)=> (i+1));
-    // A-Zの配列
-//    List contentList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", ""];
-    // a-zの配列
-//    List contentList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "", "", "", ""];
-
-    // 配列をシャッフル
-    List shuffled = shuffle(contentList);
-
     var count = 0;  // listTapの何番目を追加しているか数える
     List<Widget> listRows = new List<Widget>();  // Rowを6個入れるための配列
 
