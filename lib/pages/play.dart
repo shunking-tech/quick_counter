@@ -18,7 +18,6 @@ class Play extends StatefulWidget {
 
 class _PlayState extends State<Play> {
   var isStart = false;   // スタートしているか判断
-  var record = 0;        // タップした回数
   var canTap = true;     // タップを許可するか判断
 
   @override
@@ -76,12 +75,12 @@ class _PlayState extends State<Play> {
                                             onPressed: (){
                                               // タップ回数の保存
 //                                              SharePrefs().setRecord(menu: widget.menu, record: record);
-                                              User().saveRecord(menu: widget.menu, record: record, userId: widget.userId).then((value) {
-                                                print("SQLでタップ数の保存成功");
-                                              }).catchError((err) {
-                                                print("SQLでタップ数の保存失敗");
-                                                print(err);
-                                              });
+//                                              User().saveRecord(menu: widget.menu, record: record, userId: widget.userId).then((value) {
+//                                                print("SQLでタップ数の保存成功");
+//                                              }).catchError((err) {
+//                                                print("SQLでタップ数の保存失敗");
+//                                                print(err);
+//                                              });
                                               // 確認
 //                                              SharePrefs().getRecord(menu: widget.menu);
                                               print(widget.menu);
@@ -148,12 +147,8 @@ class _PlayState extends State<Play> {
               if (!isStart) {
 //                _startTimer();
               }
-
-              setState(() {
-                record += 1;
-              });
-
               isStart = true;  // スタートしたことを知らせる
+              setState(() {});
             },
           ),
         )
@@ -188,7 +183,7 @@ class _PlayState extends State<Play> {
         children: <Widget>[
           Expanded(
             child: Text(
-              record.toString(),
+              "",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 80,
