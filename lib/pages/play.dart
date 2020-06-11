@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -158,7 +159,8 @@ class _PlayState extends State<Play> {
   // タップエリア
   Widget tapArea() {
     // タップする中身
-    List contentList = new List.generate(30, (i)=> (i+1).toString());
+    List contentList = new List.generate(30, (i)=> (i+1));
+    List shuffled = shuffle(contentList);
 
     var count = 0;  // listTapの何番目を追加しているか数える
     List<Widget> listRows = new List<Widget>();  // Rowを6個入れるための配列
@@ -166,13 +168,27 @@ class _PlayState extends State<Play> {
     for (var i=0; i<6; i++) {
       List<Widget> listRowChildren = new List<Widget>();
       for (var j=0; j<5; j++) {
-        listRowChildren.add(tapAreaOne(contentList[count]));  // 1行分(5個)の子要素達を追加
+        listRowChildren.add(tapAreaOne(shuffled[count].toString()));  // 1行分(5個)の子要素達を追加
         count++;
       }
       listRows.add(Row(children: listRowChildren,));  // Rowを1行ずつ6個追加
     }
 
     return Column(children: listRows,);
+  }
+
+  // 配列をランダムに並び替える
+  List shuffle(List some_list){
+    var shuffledList = [];
+    var unshuffledList = some_list.toList();
+    var random = new math.Random();
+    while(unshuffledList.length != 0){
+      var l = unshuffledList.length;
+      var r = random.nextInt(l);
+      shuffledList.add(unshuffledList[r]);
+      unshuffledList.removeAt(r);
+    }
+    return shuffledList;
   }
 
   // 最初は案内　タップし始めたら回数　を表示する箇所
