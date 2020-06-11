@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   var canTapMenuEndless = true;
 
   // 選択中のメニュー
-  var selectedMenuName = "1-30";  // デフォルトで10秒が選ばれてる状態にする
+  var selectedMenuName = "number";  // デフォルトで10秒が選ばれてる状態にする
 
   // 記録表示用の変数
   var record10 = "--";
@@ -353,6 +353,18 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 
   // 画面中部のメニューの１つ
   Widget menuItem({var menu, var selected, var canTap}) {
+    // メニュー名表示用の変数
+    var displayMenuName = "";
+
+    // メニュー名表示用の変数
+    if (menu == "number") {
+      displayMenuName = "1-30";
+    } else if (menu == "large") {
+      displayMenuName = "A-Z";
+    } else if (menu == "small") {
+      displayMenuName = "a-z";
+    }
+
     return Expanded(
         child: Container(
           margin: EdgeInsets.only(left: 5, right: 5),
@@ -362,31 +374,31 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
           child: ListTile(
             enabled: canTap,
             title: Text(
-              menu,
+              displayMenuName,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 30,
                   color: Colors.white
               ),
             ),
             onTap: () {
               setState(() {
                 selectedMenuName = menu;
-                if (menu == "10s") {
+                if (menu == "number") {
                   selectedMenuNum = true;
                   selectedMenuLarge = false;
                   selectedMenuSmall = false;
                   canTapMenu10 = false;
                   canTapMenu60 = true;
                   canTapMenuEndless = true;
-                } else if (menu == "60s") {
+                } else if (menu == "large") {
                   selectedMenuNum = false;
                   selectedMenuLarge = true;
                   selectedMenuSmall = false;
                   canTapMenu10 = true;
                   canTapMenu60 = false;
                   canTapMenuEndless = true;
-                } else if (menu == "ENDRESS") {
+                } else if (menu == "small") {
                   selectedMenuNum = false;
                   selectedMenuLarge = false;
                   selectedMenuSmall = true;
@@ -436,9 +448,9 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
             padding: EdgeInsets.only(top: 10,bottom: 10, left: 30, right: 30),
             child: Row(
               children: <Widget>[
-                menuItem(menu: "1-30", selected: selectedMenuNum, canTap: canTapMenu10),
-                menuItem(menu: "A-Z", selected: selectedMenuLarge, canTap: canTapMenu60),
-                menuItem(menu: "a-z", selected: selectedMenuSmall, canTap: canTapMenuEndless),
+                menuItem(menu: "number", selected: selectedMenuNum, canTap: canTapMenu10),
+                menuItem(menu: "large", selected: selectedMenuLarge, canTap: canTapMenu60),
+                menuItem(menu: "small", selected: selectedMenuSmall, canTap: canTapMenuEndless),
               ],
             ),
           ),

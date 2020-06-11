@@ -158,12 +158,24 @@ class _PlayState extends State<Play> {
 
   // タップエリア
   Widget tapArea() {
-    // タップする中身
-//    List contentList = new List.generate(30, (i)=> (i+1));  // 1-30の配列作成
+    print(widget.menu);
+
+    List contentList = [];
+
+    if (widget.menu == "number") {
+      contentList = new List.generate(30, (i)=> (i+1));
+    } else if (widget.menu == "large") {
+      contentList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", ""];
+    } else if (widget.menu == "small") {
+      contentList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "", "", "", ""];
+    }
+
+    // 1-30の配列
+//    List contentList = new List.generate(30, (i)=> (i+1));
     // A-Zの配列
 //    List contentList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", ""];
     // a-zの配列
-    List contentList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "", "", "", ""];
+//    List contentList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "", "", "", ""];
 
     // 配列をシャッフル
     List shuffled = shuffle(contentList);
