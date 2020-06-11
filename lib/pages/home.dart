@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import "package:intl/intl.dart";
 import 'package:quick_counter/main.dart';
 import 'package:quick_counter/model/user.dart';
 import 'package:quick_counter/pages/play.dart';
@@ -29,9 +30,9 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   var selectedMenuName = "number";  // デフォルトで10秒が選ばれてる状態にする
 
   // 記録表示用の変数
-  var record10 = "--";
-  var record60 = "--";
-  var recordEndless = "--";
+  var timeNumber = "--";
+  var timeLarge = "--";
+  var timeSmall = "--";
 
   // 名前を入力した時のみPLAYできるように制御する変数
   var canPlay = false;
@@ -42,12 +43,12 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-//    routeObserver.subscribe(this, ModalRoute.of(context));
+    routeObserver.subscribe(this, ModalRoute.of(context));
   }
 
   @override
   void dispose() {
-//    routeObserver.unsubscribe(this);
+    routeObserver.unsubscribe(this);
     super.dispose();
   }
 
@@ -55,26 +56,36 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
   // 上の画面がpopされて、この画面に戻ったときに呼ばれます
   void didPopNext() {
     print("aaa");
-//    setState(() {});
     // ユーザー情報を取得
-//    SQL().getNowUser(name: _ctrName.text).then((value) {
-//      print("ユーザーidを取得成功");
-//      print(value);
-//      userId = value["id"];   // ユーザーidを変数に保持
-//      if (value["tenSec"] != null) {
-//        record10 = value["tenSec"].toString();
-//      }
-//      if (value["sixtySec"] != null) {
-//        record60 = value["sixtySec"].toString();
-//      }
-//      if (value["endless"] != null) {
-//        recordEndless = value["endless"].toString();
-//      }
-//      setState(() {});
-//    }).catchError((err) {
-//      print("ユーザーidを取得失敗");
-//      print(err);
-//    });
+    User().getNowUser(name: _ctrName.text).then((user) {
+      print("ユーザーidを取得成功");
+      print(user);
+      userId = user["id"];   // ユーザーidを変数に保持
+      var f = new NumberFormat("00.00");  // 数値をフォーマットする準備
+
+      // 表示するタイムをセット
+      if (user["number"] != null) {
+        timeNumber = f.format(user["number"]);
+      } else {
+        timeNumber = "--";
+      }
+      if (user["large_az"] != null) {
+        timeLarge = f.format(user["large_az"]);
+      } else {
+        timeLarge = "--";
+      }
+      if (user["small_az"] != null) {
+        timeSmall = f.format(user["small_az"]);
+      } else {
+        timeSmall = "--";
+      }
+      setState(() {});
+    }).catchError((err) {
+      print("ユーザー情報を取得失敗");
+      print(err);
+    });
+
+    setState(() {});
   }
 
   @override
@@ -152,9 +163,9 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                                   setState(() {
                                     if (_ctrName.text.length == 0) {  // 入力内容がない時
                                       canPlay = false;
-//                                      record10 = "--";
-//                                      record60 = "--";
-//                                      recordEndless = "--";
+                                      timeNumber = "--";
+                                      timeLarge = "--";
+                                      timeSmall = "--";
                                     } else {                  // 入力内容がある時
                                       print("名前の入力あり");
                                       canPlay = true;
@@ -164,25 +175,28 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                                         print("ユーザー登録成功");
 
                                         // ユーザー情報を取得
-                                        User().getNowUser(name: _ctrName.text).then((value) {
+                                        User().getNowUser(name: _ctrName.text).then((user) {
                                           print("ユーザーidを取得成功");
-                                          print(value);
-                                          userId = value["id"];   // ユーザーidを変数に保持
-//                                          if (value["tenSec"] != null) {
-//                                            record10 = value["tenSec"].toString();
-//                                          } else {
-//                                            record10 = "--";
-//                                          }
-//                                          if (value["sixtySec"] != null) {
-//                                            record60 = value["sixtySec"].toString();
-//                                          } else {
-//                                            record60 = "--";
-//                                          }
-//                                          if (value["endless"] != null) {
-//                                            recordEndless = value["endless"].toString();
-//                                          } else {
-//                                            recordEndless = "--";
-//                                          }
+                                          print(user);
+                                          userId = user["id"];   // ユーザーidを変数に保持
+                                          var f = new NumberFormat("00.00");  // 数値をフォーマットする準備
+
+                                          // 表示するタイムをセット
+                                          if (user["number"] != null) {
+                                            timeNumber = f.format(user["number"]);
+                                          } else {
+                                            timeNumber = "--";
+                                          }
+                                          if (user["large_az"] != null) {
+                                            timeLarge = f.format(user["large_az"]);
+                                          } else {
+                                            timeLarge = "--";
+                                          }
+                                          if (user["small_az"] != null) {
+                                            timeSmall = f.format(user["small_az"]);
+                                          } else {
+                                            timeSmall = "--";
+                                          }
                                           setState(() {});
                                         }).catchError((err) {
                                           print("ユーザー情報を取得失敗");
@@ -343,9 +357,9 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
     return Container(
       child: Row(
         children: <Widget>[
-          recordText(menu: "1-30", record: record10),
-          recordText(menu: "A-Z", record: record60),
-          recordText(menu: "a-z", record: recordEndless),
+          recordText(menu: "1-30", record: timeNumber),
+          recordText(menu: "A-Z", record: timeLarge),
+          recordText(menu: "a-z", record: timeSmall),
         ],
       ),
     );
