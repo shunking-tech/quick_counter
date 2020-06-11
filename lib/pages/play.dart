@@ -25,7 +25,8 @@ class _PlayState extends State<Play> {
   List shuffled = [];     // タップする中身をシャッフルしたものを代入する用
 
   var count = 0;  // タップされた回数を数える
-  var gameover = false;
+  var gameover = false;   // 間違えたらこれをtrueにしてGameOverにする
+  var maxTap = 0;   // メニューによってタップできる回数を変える
 
   @override
 
@@ -35,12 +36,18 @@ class _PlayState extends State<Play> {
     if (widget.menu == "number") {
       // 1-30の配列
       contentList = new List.generate(30, (i)=> (i+1));
+      //  数字の時は30回までタップできる
+      maxTap = 30;
     } else if (widget.menu == "large") {
       // A-Zの配列
       contentList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "", "", "", ""];
+      //  アルファベットの時は26回までタップできる
+      maxTap = 26;
     } else if (widget.menu == "small") {
       // a-zの配列
       contentList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "", "", "", ""];
+      //  アルファベットの時は26回までタップできる
+      maxTap = 26;
     }
 
     // 配列をシャッフル
@@ -176,10 +183,18 @@ class _PlayState extends State<Play> {
               }
               isStart = true;  // スタートしたことを知らせる
 
-              // 正しくタップしていれば、次に進む
-              if (content == contentList[count].toString()) {
+              // 次にタップする中身を取得
+              var nextContent = "";
+              if (count < maxTap) {
+                nextContent = contentList[count].toString();
+              }
+
+              // 正しくタップしている、かつ、最大タップ数に達していなければ、次に進む
+              if ((content == nextContent) && (count < maxTap)) {
                 count++;  // タップ回数を一回増やす
-              } else {
+
+              // 間違ってタップ、かつ、最大タップ数に達していなければ、GameOver
+              } else if ((content != nextContent) && (count+1 < maxTap)) {
                 gameover = true;
               }
               setState(() {});
@@ -239,7 +254,7 @@ class _PlayState extends State<Play> {
           )
         ],
       );
-    } else {
+    } else if (count < maxTap) {
       return Row(
         children: <Widget>[
           Expanded(
@@ -248,6 +263,22 @@ class _PlayState extends State<Play> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 80,
+                  color: Colors.white
+              ),
+            ),
+          )
+        ],
+      );
+    } else {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "Congratulation!",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 60,
+                  height: 1.55,
                   color: Colors.white
               ),
             ),
