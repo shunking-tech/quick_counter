@@ -18,20 +18,26 @@ class Play extends StatefulWidget {
 }
 
 class _PlayState extends State<Play> {
-  var isStart = false;   // スタートしているか判断
   var canTap = true;     // タップを許可するか判断
 
   List contentList = [];  // タップする中身を代入する用
   List shuffled = [];     // タップする中身をシャッフルしたものを代入する用
 
   var count = 0;  // タップされた回数を数える
-  var gameover = false;   // 間違えたらこれをtrueにしてGameOverにする
   var maxTap = 0;   // メニューによってタップできる回数を変える
+
+  var gameover = false;   // 間違えたらこれをtrueにしてGameOverにする
+  var clear = false;
+
+  var time = 00.00;   // タイム保持する
 
   @override
 
   initState() {
     super.initState();
+
+    // タイマーをスタート
+    _startTimer();
 
     if (widget.menu == "number") {
       // 1-30の配列
@@ -177,12 +183,6 @@ class _PlayState extends State<Play> {
             ),
             enabled: canTap,
             onTap: () {
-              //1回目のタップでのみタイマーをスタートさせる
-              if (!isStart) {
-//                _startTimer();
-              }
-              isStart = true;  // スタートしたことを知らせる
-
               // 次にタップする中身を取得
               var nextContent = "";
               if (count < maxTap) {
@@ -192,6 +192,11 @@ class _PlayState extends State<Play> {
               // 正しくタップしている、かつ、最大タップ数に達していなければ、次に進む
               if ((content == nextContent) && (count < maxTap)) {
                 count++;  // タップ回数を一回増やす
+
+                // 最大タップ数に到達すればクリア
+                if (count == maxTap) {
+                  clear = true;
+                }
 
               // 間違ってタップ、かつ、最大タップ数に達していなければ、GameOver
               } else if ((content != nextContent) && (count+1 < maxTap)) {
@@ -289,69 +294,31 @@ class _PlayState extends State<Play> {
   }
 
   Widget _blockTimer() {
-//    var f = new NumberFormat("00.00");
-//
-//    if (widget.time >= 0) {   // ENDRESS以外の時にタイマーを表示
-//      return Expanded(
-//        child: Text(
-//          f.format(widget.time),
-//          textAlign: TextAlign.center,
-//          style: TextStyle(
-//              fontSize: 50,
-//              color: Colors.white
-//          ),
-//        ),
-//      );
-//    } else if (widget.time == -1.00) {   // ENDRESSの時の表示
-//      return Expanded(
-//        child: Text(
-//          "NO LIMIT",
-//          textAlign: TextAlign.center,
-//          style: TextStyle(
-//              fontSize: 40,
-//              color: Colors.white
-//          ),
-//        ),
-//      );
-//    } else {
-//      return Expanded(
-//        child: Text(
-//          "00.00",
-//          textAlign: TextAlign.center,
-//          style: TextStyle(
-//              fontSize: 50,
-//              color: Colors.white
-//          ),
-//        ),
-//      );
-//    }
-      return Expanded(
-        child: Text(
-          "00.00",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 50,
-              color: Colors.white
-          ),
+    var f = new NumberFormat("00.00");
+    return Expanded(
+      child: Text(
+        f.format(time),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 50,
+            color: Colors.white
         ),
-      );
+      ),
+    );
   }
-//
-////  いづれかのボタンを押した時にタイマー開始
-//  _startTimer() {
-//    if (widget.time >= 0) {   // ENDRESS以外の時にタイマーを動かす
-//      Timer.periodic(
-//          Duration(milliseconds: 1),
-//              (Timer t) => setState(() {
-//            widget.time -= 0.01;
-//
-//            // タイマーが０になったら
-//            if (widget.time <= 0) {
-//              t.cancel();       // タイマー止める
-//              canTap = false;   // タップできなくする
-//            }
-//          })
-//      );
-//    }
-//  }
+
+  //  いづれかのボタンを押した時にタイマー開始
+  _startTimer() {
+    Timer.periodic(
+      Duration(milliseconds: 1),
+        (Timer t) => setState(() {
+          time += 0.01;
+
+          // ゲームオーバー、または、クリアでタイマーを止める
+          if (gameover || clear) {
+            t.cancel();
+          }
+        })
+    );
+  }
 }
