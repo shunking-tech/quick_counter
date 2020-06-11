@@ -24,6 +24,8 @@ class _PlayState extends State<Play> {
   List contentList = [];  // タップする中身を代入する用
   List shuffled = [];     // タップする中身をシャッフルしたものを代入する用
 
+  var count = 0;  // タップされた回数を数える
+
   @override
 
   initState() {
@@ -172,7 +174,12 @@ class _PlayState extends State<Play> {
 //                _startTimer();
               }
               isStart = true;  // スタートしたことを知らせる
-              setState(() {});
+
+              // 正しくタップしていれば、次に進む
+              if (content == contentList[count].toString()) {
+                count++;  // タップ回数を一回増やす
+                setState(() {});
+              }
             },
           ),
         )
@@ -213,37 +220,20 @@ class _PlayState extends State<Play> {
   // 最初は案内　タップし始めたら回数　を表示する箇所
   Widget guideOrRecord() {
 
-    if (isStart) {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              "",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 80,
-                  color: Colors.white
-              ),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Text(
+            contentList[count].toString(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 80,
+                color: Colors.white
             ),
-          )
-        ],
-      );
-    } else {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Text(
-              "Press any\nbutton to start",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 40,
-                  color: Colors.white
-              ),
-            ),
-          )
-        ],
-      );
-    }
+          ),
+        )
+      ],
+    );
   }
 
   Widget _blockTimer() {
