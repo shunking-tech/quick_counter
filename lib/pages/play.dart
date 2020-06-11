@@ -25,6 +25,7 @@ class _PlayState extends State<Play> {
   List shuffled = [];     // タップする中身をシャッフルしたものを代入する用
 
   var count = 0;  // タップされた回数を数える
+  var gameover = false;
 
   @override
 
@@ -178,8 +179,10 @@ class _PlayState extends State<Play> {
               // 正しくタップしていれば、次に進む
               if (content == contentList[count].toString()) {
                 count++;  // タップ回数を一回増やす
-                setState(() {});
+              } else {
+                gameover = true;
               }
+              setState(() {});
             },
           ),
         )
@@ -217,23 +220,41 @@ class _PlayState extends State<Play> {
     return shuffledList;
   }
 
-  // 最初は案内　タップし始めたら回数　を表示する箇所
+  // 次にタップするものを表示する
   Widget guideOrRecord() {
-
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: Text(
-            contentList[count].toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 80,
-                color: Colors.white
+    if (gameover) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "Game Over!",
+              softWrap: true,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 70,
+                  height: 1.35,
+                  color: Colors.white
+              ),
             ),
-          ),
-        )
-      ],
-    );
+          )
+        ],
+      );
+    } else {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              contentList[count].toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 80,
+                  color: Colors.white
+              ),
+            ),
+          )
+        ],
+      );
+    }
   }
 
   Widget _blockTimer() {
