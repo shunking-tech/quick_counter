@@ -64,7 +64,7 @@ class User {
     return res[0];
   }
 
-  // タップ数を保存
+  // タイムを保存
   Future<void> saveTime({var menu, var time, int userId}) async {
     final db = await DBProvider.db.database;
     var res;
