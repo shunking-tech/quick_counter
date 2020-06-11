@@ -65,19 +65,19 @@ class User {
   }
 
   // タップ数を保存
-  Future<void> saveRecord({var menu, var record, int userId}) async {
+  Future<void> saveTime({var menu, var time, int userId}) async {
     final db = await DBProvider.db.database;
     var res;
     Map<String, dynamic> user = Map();
 
-    if (menu == "10s") {
-      user["tenSec"] = record;
+    if (menu == "number") {
+      user["number"] = time;
     }
-    if (menu == "60s") {
-      user["sixtySec"] = record;
+    if (menu == "large") {
+      user["large_az"] = time;
     }
-    if (menu == "ENDRESS") {
-      user["endless"] = record;
+    if (menu == "small") {
+      user["small_az"] = time;
     }
     res = await db.update(
         "users",

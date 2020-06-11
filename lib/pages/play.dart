@@ -113,16 +113,19 @@ class _PlayState extends State<Play> {
                                           ),
                                           child: RaisedButton(
                                             onPressed: (){
-                                              // タップ回数の保存
-//                                              SharePrefs().setRecord(menu: widget.menu, record: record);
-//                                              User().saveRecord(menu: widget.menu, record: record, userId: widget.userId).then((value) {
-//                                                print("SQLでタップ数の保存成功");
-//                                              }).catchError((err) {
-//                                                print("SQLでタップ数の保存失敗");
-//                                                print(err);
-//                                              });
-                                              // 確認
-//                                              SharePrefs().getRecord(menu: widget.menu);
+                                              print("QUIT");
+
+                                              if (clear) {  // クリアしてたらタイムを保存する
+                                                User().saveTime(menu: widget.menu, time: time, userId: widget.userId).then((value) {
+                                                  print("タイム保存成功");
+                                                }).catchError((err) {
+                                                  print("タイム保存失敗");
+                                                  print(err);
+                                                });
+                                              } else {  // クリアしてない時に終了したら、ゲームオーバーとする
+                                                gameover = true;
+                                              }
+
                                               print(widget.menu);
                                               // ページ戻る
                                               Navigator.pop(context);
