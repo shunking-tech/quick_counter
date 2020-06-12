@@ -82,7 +82,7 @@ class _PlayState extends State<Play> {
                   children: <Widget>[
                     // 画面上部
                     Container(
-                      padding: EdgeInsets.only(left: 10,right: 10),
+                      padding: EdgeInsets.only(top: 10, left: 10,right: 10),
                       child: Row(
                         children: <Widget>[
 
