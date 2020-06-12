@@ -152,13 +152,16 @@ class _PlayState extends State<Play> {
                     // 最初は案内　タップし始めたら回数　を表示
                     guideOrRecord(),
 
-                    // タップエリア
-                    tapArea()
-
                   ],
                 ),
               ],
             ),
+
+            // タップエリア
+            Align(
+              alignment: Alignment(0.0, 1.0),
+              child: tapArea(),
+            )
           ],
         )
     );
@@ -226,7 +229,11 @@ class _PlayState extends State<Play> {
       listRows.add(Row(children: listRowChildren,));  // Rowを1行ずつ6個追加
     }
 
-    return Column(children: listRows,);
+    return Container(
+      height: 500,
+//      color: Colors.orange,
+      child: Column(children: listRows,),
+    );
   }
 
   // 配列をランダムに並び替える

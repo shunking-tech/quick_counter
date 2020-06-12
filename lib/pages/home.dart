@@ -242,66 +242,69 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 
                           _blockPlay(),
 
-                          // 画面下部
-                          Container(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            margin: EdgeInsets.only(top: 30),
-                            child: Row(
-                              children: <Widget>[
-                                // 作成者情報
-                                Expanded(
-                                  child: Text(
-                                    "FONT:\n"
-                                        "Isurus Labs\n\n"
-                                        "ICON:\n"
-                                        "Yukichi\n\n"
-                                        "SPECIAK THANKS:\n"
-                                        "Yukichi, @real_onesc\n\n"
-                                        "(c) 2018 sinProject inc.",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-
-                                // ランキング
-                                Expanded(
-                                    child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      height: 200,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "Leaderboard",
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Text(
-                                            "1.",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.red),
-                                      ),
-                                    )
-                                )
-                              ],
-                            ),
-                          ),
-
                         ],
                       )
                     ],
                   ),
                 )
             ),
+
+            // 画面下部
+            Align(
+              alignment: new Alignment(0.0, 1.0),
+              child: Container(
+                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    // 作成者情報
+                    Expanded(
+                      child: Text(
+                        "FONT:\n"
+                            "Isurus Labs\n\n"
+                            "ICON:\n"
+                            "Yukichi\n\n"
+                            "SPECIAK THANKS:\n"
+                            "Yukichi, @real_onesc\n\n"
+                            "(c) 2018 sinProject inc.",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+
+                    // ランキング
+                    Expanded(
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          height: 200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Leaderboard",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                "1.",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.red),
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+            )
+
           ],
         )
 
