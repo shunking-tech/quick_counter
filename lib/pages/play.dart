@@ -175,7 +175,7 @@ class _PlayState extends State<Play> {
           height: 70,
           decoration: BoxDecoration(
               border: Border.all(color: Colors.red),
-              color: Colors.red.withOpacity(0.2)
+              color: (gameover || clear) ? null : Colors.red.withOpacity(0.2)
           ),
           child: ListTile(
             title: Center(
