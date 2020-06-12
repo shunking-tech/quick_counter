@@ -148,8 +148,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 
                           // ユーザー名
                           Container(
-                              margin: EdgeInsets.only(left: 70, right: 70),
-                              height: 100,
+                              margin: EdgeInsets.only(top: 20, left: 70, right: 70, bottom: 10),
                               child: TextFormField(
                                 controller: _ctrName,
                                 textAlign: TextAlign.center,
@@ -297,6 +296,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.red),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         )
                     )
@@ -474,7 +474,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
 
           // PLAYボタン
           Container(
-              padding: EdgeInsets.only(bottom: 10, left: 30, right: 30),
+              padding: EdgeInsets.only(bottom: 10, left: 35, right: 35),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -482,6 +482,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                         height: 70,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.red),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: RaisedButton(
                           onPressed: (){
