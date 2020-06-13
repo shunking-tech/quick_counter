@@ -4,6 +4,7 @@ import "package:intl/intl.dart";
 import 'package:quick_counter/main.dart';
 import 'package:quick_counter/model/user.dart';
 import 'package:quick_counter/pages/play.dart';
+import 'package:quick_counter/util/sound.dart';
 //import 'package:renda_machine/pages/play.dart';
 //import 'package:renda_machine/util/shere_pref.dart';
 //import 'package:renda_machine/util/spl.dart';
@@ -399,6 +400,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
               ),
             ),
             onTap: () {
+              Sound().playSelectMenu();
               setState(() {
                 selectedMenuName = menu;
                 if (menu == "number") {
@@ -486,6 +488,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                         ),
                         child: RaisedButton(
                           onPressed: (){
+                            Sound().playStart();
                             Navigator.push(
                               context,
                               CupertinoPageRoute(

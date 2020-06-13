@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:intl/intl.dart";
 import 'package:quick_counter/model/user.dart';
+import 'package:quick_counter/util/sound.dart';
 
 class Play extends StatefulWidget {
   // 選択された制限時間を受け取り
@@ -115,6 +116,8 @@ class _PlayState extends State<Play> {
                                             onPressed: (){
                                               print("QUIT");
 
+                                              Sound().playSelectMenu();
+
                                               if (clear) {  // クリアしてたらタイムを保存する
                                                 User().saveTime(menu: widget.menu, time: time, userId: widget.userId).then((value) {
                                                   print("タイム保存成功");
@@ -197,15 +200,18 @@ class _PlayState extends State<Play> {
 
               // 正しくタップしている、かつ、最大タップ数に達していなければ、次に進む
               if ((content == nextContent) && (count < maxTap)) {
+                Sound().playTapErea();
                 count++;  // タップ回数を一回増やす
 
                 // 最大タップ数に到達すればクリア
                 if (count == maxTap) {
+                  Sound().playClear();
                   clear = true;
                 }
 
               // 間違ってタップ、かつ、最大タップ数に達していなければ、GameOver
               } else if ((content != nextContent) && (count+1 < maxTap)) {
+                Sound().playGameOver();
                 gameover = true;
               }
               setState(() {});
