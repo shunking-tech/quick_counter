@@ -386,12 +386,11 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
     return Expanded(
         child: Container(
           margin: EdgeInsets.only(left: 5, right: 5),
-          foregroundDecoration: BoxDecoration(
-              color: selected ? Colors.red.withOpacity(0.3) : null
-          ),
-          child: ListTile(
-            enabled: canTap,
-            title: Text(
+          height: 50,
+          child: RaisedButton(
+//            enabled: canTap,
+            color: selected ? Colors.red.withOpacity(0.3) : Colors.red.withOpacity(0),
+            child: Text(
               displayMenuName,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -399,7 +398,7 @@ class _MyHomePageState extends State<MyHomePage> with RouteAware {
                   color: Colors.white
               ),
             ),
-            onTap: () {
+            onPressed: () {
               Sound().playSelectMenu();
               setState(() {
                 selectedMenuName = menu;

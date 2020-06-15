@@ -180,8 +180,9 @@ class _PlayState extends State<Play> {
               border: Border.all(color: Colors.red),
               color: (gameover || clear) ? null : Colors.red.withOpacity(0.2)
           ),
-          child: ListTile(
-            title: Center(
+          child: RaisedButton(
+            color: Colors.red.withOpacity(0),
+            child: Center(
               child: Text(
                 content,
                 style: TextStyle(
@@ -190,8 +191,8 @@ class _PlayState extends State<Play> {
                 ),
               ),
             ),
-            enabled: canTap,
-            onTap: () {
+//            enabled: canTap,
+            onPressed: (gameover || clear) ? null : () {
               // 次にタップする中身を取得
               var nextContent = "";
               if (count < maxTap) {
